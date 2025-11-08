@@ -15,12 +15,35 @@ You can extend this graph to orchestrate more complex agentic workflows that can
 
 ## Getting Started
 
-1. Install dependencies, along with the [LangGraph CLI](https://langchain-ai.github.io/langgraph/concepts/langgraph_cli/), which will be used to run the server.
+### Prerequisites
+
+Install [uv](https://docs.astral.sh/uv/) for modern, fast Python package management:
+
+```bash
+# macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Or with pip
+pip install uv
+```
+
+### Setup
+
+1. Install all dependencies (including dev dependencies and [LangGraph CLI](https://langchain-ai.github.io/langgraph/concepts/langgraph_cli/)):
 
 ```bash
 cd path/to/your/app
-pip install -e . "langgraph-cli[inmem]"
+uv sync --dev
 ```
+
+This will:
+- Create a virtual environment in `.venv/`
+- Install the project in editable mode
+- Install all dependencies including LangGraph CLI
+- Generate a `uv.lock` file for reproducible builds
 
 2. (Optional) Customize the code and project as needed. Create a `.env` file if you need to use secrets.
 
@@ -38,10 +61,38 @@ LANGSMITH_API_KEY=lsv2...
 3. Start the LangGraph Server.
 
 ```shell
+# Option 1: Activate the virtual environment first
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 langgraph dev
+
+# Option 2: Use uv run (no activation needed)
+uv run langgraph dev
 ```
 
 For more information on getting started with LangGraph Server, [see here](https://langchain-ai.github.io/langgraph/tutorials/langgraph-platform/local-server/).
+
+### Running Tests
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run with coverage
+uv run pytest --cov=src/agent
+```
+
+### Development Tools
+
+```bash
+# Format code
+uv run ruff format .
+
+# Lint code
+uv run ruff check .
+
+# Type checking
+uv run mypy src/
+```
 
 ## How to customize
 
