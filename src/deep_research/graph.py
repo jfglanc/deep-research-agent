@@ -1,21 +1,28 @@
-from langgraph.graph import StateGraph, START, END, add_messages
+from langgraph.graph import StateGraph, START, END, add_messages, MessagesState
+from tavily.tavily import os
 from typing_extensions import TypedDict, Annotated, Sequence
+from pydantic import BaseModel
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
+from langchain_core.tools import tool
+from langchain_openai import ChatOpenAI
+from tavily import TavilyClient
 
-class State(TypedDict):
-    messages: Annotated[Sequence[BaseMessage], add_messages]
+llm = ChatOpenAI(model="gpt-5-mini", temperature=0)
 
-def node_1(state: State) -> State:
-    return {"messages": [HumanMessage(content="Hello, how are you?")]}
+client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
-def node_2(state: State) -> State:
-    return {"messages": [AIMessage(content="I'm doing great, thank you!")]}
+@tool
+def search_tavily(query: str) -> str:
+    """Search the web for information"""
+    return "This is a search result"
 
-builder = StateGraph(State)
-builder.add_node("node_1", node_1)
-builder.add_node("node_2", node_2)
-builder.add_edge(START, "node_1")
-builder.add_edge("node_1", "node_2")
-builder.add_edge("node_2", END)
-graph = builder.compile()
+
+class AgentInput(MessagesState):
+    pass
+
+class ResearchDirection(MessagesState):
+    user_approved: bool
+    research_topic: str
+    research_parameters: str
+
 
