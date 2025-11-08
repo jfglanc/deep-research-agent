@@ -32,6 +32,8 @@ pip install uv
 
 ### Setup
 
+**Note:** This project uses `uv run` for all commands, which automatically manages the virtual environment without manual activation.
+
 1. Install all dependencies (including dev dependencies and [LangGraph CLI](https://langchain-ai.github.io/langgraph/concepts/langgraph_cli/)):
 
 ```bash
@@ -61,11 +63,7 @@ LANGSMITH_API_KEY=lsv2...
 3. Start the LangGraph Server.
 
 ```shell
-# Option 1: Activate the virtual environment first
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-langgraph dev
-
-# Option 2: Use uv run (no activation needed)
+# Use uv run (recommended - no activation needed)
 uv run langgraph dev
 ```
 
