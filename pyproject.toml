@@ -1,5 +1,5 @@
 [project]
-name = "Deep Research Agent - Jan Franco Glanc"
+name = "deep_research_jan_franco"
 version = "1.0.0"
 description = "Jan Franco's implementation of a deep research agent using LangGraph"
 authors = [
