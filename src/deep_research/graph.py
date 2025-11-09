@@ -1,4 +1,13 @@
-### Research Advisor ###
+### Research Advisor Agent ###
+
+# this is a conversational agent with access to search to help you define the research direction
+# it acts as a "research advisor" like a university professor would do
+# if the topic is well known, it will use its own knowledge to define the direction
+# but if it's a new or niche topic, it will use search to help you nail the scope using fresh context
+# architecturally, it's a react agent with a tool to trigger the main deep research agent
+
+
+### Imports ###
 
 from typing_extensions import Literal, List
 
@@ -14,24 +23,34 @@ from tavily import TavilyClient
 
 from src.deep_research.advisor_prompt import RESEARCH_ADVISOR_PROMPT, SEARCH_SUMMARIZER_PROMPT
 
+
+## Clients and Models ##
+
 model = ChatOpenAI(model="gpt-5-mini", temperature=0)
 tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
-### State ###
+
+
+## Graph State ##
+# it inherits a list of messages + reducer from MessagesState
+# it also includes three additional fields to store the direction of the research
 
 class ResearchAdvisor(MessagesState):
     user_approved: bool
     research_topic: str
     research_scope: str
 
+
+
+
 ### Tools ###
-
-
-summarizer_model = ChatOpenAI(model="gpt-5-mini", temperature=0)
+# tavily accepts a list of queries and they get summarized with a research focus before returning to advisor
+# execute_research acts as a structured output and trigger to the main deep research agent
+# a node is added to save the output to the graph state
 
 @tool
 def search_tavily(queries: List[str], research_focus: str) -> str:
-    """Search the web for information"""
+    """Search the web for recent news and niche information"""
 
     search_results = []
     for query in queries:
@@ -42,27 +61,25 @@ def search_tavily(queries: List[str], research_focus: str) -> str:
     # summarize the results with a research focus
     system_message = SystemMessage(content=SEARCH_SUMMARIZER_PROMPT.format(research_focus=research_focus))
     results_to_summarize = HumanMessage(content=str(search_results))
-    results_summary = summarizer_model.invoke([system_message, results_to_summarize]).content
+    results_summary = model.invoke([system_message, results_to_summarize]).content
     
     # return the full summary
     return results_summary
 
 @tool
 def execute_research(research_topic: str, research_scope: str) -> str:
-    """Execute a research brief"""
+    """Execute deep research on the given topic and scope after user approval"""
     return f"Research executed for {research_topic} with scope {research_scope}"
 
 
 
-### Model ###
-
-
+# we bind those two tools to the model
 model_with_tools = model.bind_tools([search_tavily, execute_research])
-
 
 
 ### Nodes ###
 
+# call_model and tool_node are the main ReAct nodes of the graph
 def call_model(state: ResearchAdvisor) -> ResearchAdvisor:
     system_message = SystemMessage(content=RESEARCH_ADVISOR_PROMPT)
     messages = [system_message] + state["messages"]
@@ -71,8 +88,10 @@ def call_model(state: ResearchAdvisor) -> ResearchAdvisor:
 
 tool_node = ToolNode(tools=[search_tavily, execute_research])
 
+# I created this extra node to save down the structured output of the execute_research tool to state
 def save_research_brief(state: ResearchAdvisor) -> dict:
     
+    # we need to look backwards to find the AI message with tool_calls
     for message in reversed(state["messages"]):
         if isinstance(message, AIMessage) and message.tool_calls:
             for tool_call in message.tool_calls:
@@ -86,9 +105,25 @@ def save_research_brief(state: ResearchAdvisor) -> dict:
     
     return {}
 
+
 ### Graph ###
 
-def route_after_tools(state: ResearchAdvisor) -> Literal["save_research_brief", "continue"]:
+# these are the two routing functions for my conditional edges
+# should_use_tools checks if the last message is an AI message with tool_calls
+# route_after_tools checks if the last message is an AI message with tool_calls and the tool is execute_research
+
+def should_use_tools(state: ResearchAdvisor) -> Literal["tool_node", "__end__"]:
+    """Check if agent called tools and route to tool_node if true."""
+    last_message = state["messages"][-1]
+    
+    if isinstance(last_message, AIMessage) and last_message.tool_calls:
+        return "tool_node"
+    
+    return END
+
+
+def should_save_research_brief(state: ResearchAdvisor) -> Literal["save_research_brief", "continue"]:
+    """Checks if execute_research tool was called and route to save_research_brief if true."""
     for message in reversed(state["messages"]):
         if isinstance(message, AIMessage) and message.tool_calls:
             tool_names = [tc["name"] for tc in message.tool_calls]
@@ -97,42 +132,39 @@ def route_after_tools(state: ResearchAdvisor) -> Literal["save_research_brief", 
             return "continue"
     return "continue"
 
-def should_use_tools(state: ResearchAdvisor) -> Literal["tool_node", "__end__"]:
-    """Check if agent called tools."""
-    last_message = state["messages"][-1]
-    
-    # Only AIMessage has tool_calls
-    if isinstance(last_message, AIMessage) and last_message.tool_calls:
-        return "tool_node"
-    
-    return END
+
 
 builder = StateGraph(ResearchAdvisor)
+
+# add the three nodes to the graph
 builder.add_node("call_model", call_model)
 builder.add_node("tool_node", tool_node)
 builder.add_node("save_research_brief", save_research_brief)
 
-
-
-
+# add the edges to the graph
 builder.add_edge(START, "call_model")
 
-
+# if model calls tools, route to tool_node
 builder.add_conditional_edges(
     "call_model",
     should_use_tools,
     {"tool_node": "tool_node", END: END}
 )
+
+# if execute_research tool is called, route to save_research_brief
 builder.add_conditional_edges(
     "tool_node",
-    route_after_tools,
+    should_save_research_brief,
     {
         "save_research_brief": "save_research_brief",
         "continue": "call_model"
     }
 )
 
+# once the research brief is saved, end the graph (no need to go back to the model)
 builder.add_edge("save_research_brief", END)
+
+# compile the graph
 graph = builder.compile()
 
 
