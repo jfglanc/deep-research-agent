@@ -72,16 +72,17 @@ def call_model(state: ResearchAdvisor) -> ResearchAdvisor:
 tool_node = ToolNode(tools=[search_tavily, execute_research])
 
 def save_research_brief(state: ResearchAdvisor) -> dict:
-    last_message = state["messages"][-1]
     
-    for tool_call in last_message.tool_calls:
-        if tool_call["name"] == "execute_research":
-            args = tool_call["args"]
-            return {
-                "user_approved": True,
-                "research_topic": args["research_topic"],
-                "research_scope": args["research_scope"]
-            }
+    for message in reversed(state["messages"]):
+        if isinstance(message, AIMessage) and message.tool_calls:
+            for tool_call in message.tool_calls:
+                if tool_call["name"] == "execute_research":
+                    args = tool_call["args"]
+                    return {
+                        "user_approved": True,
+                        "research_topic": args["research_topic"],
+                        "research_scope": args["research_scope"]
+                    }
     
     return {}
 
