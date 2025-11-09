@@ -80,6 +80,7 @@ def search_web(queries: List[str], research_focus: str) -> str:
     # return the full summary
     return results_summary
 
+
 @tool(parse_docstring=True)
 def execute_research(research_topic: str, research_scope: str) -> str:
     """
@@ -117,7 +118,7 @@ def call_model(state: ResearchAdvisor) -> ResearchAdvisor:
 
 tool_node = ToolNode(tools=[search_web, execute_research])
 
-# I created this extra node to save down the structured output of the execute_research tool to state
+# this extra node saves down the structured output of the execute_research tool to state
 def save_research_brief(state: ResearchAdvisor) -> dict:
     
     # we need to look backwards to find the AI message with tool_calls
