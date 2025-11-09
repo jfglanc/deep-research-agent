@@ -48,9 +48,23 @@ class ResearchAdvisor(MessagesState):
 # execute_research acts as a structured output and trigger to the main deep research agent
 # a node is added to save the output to the graph state
 
-@tool
-def search_tavily(queries: List[str], research_focus: str) -> str:
-    """Search the web for recent news and niche information"""
+@tool(parse_docstring=True)
+def search_web(queries: List[str], research_focus: str) -> str:
+    """
+    Tool to search the web for recent news and niche information based on the user's research focus.
+
+    When to use:
+    - When the user's research focus is a current event, recent news, or a niche topic
+    - When the user's research focus is not well known or mainstream
+    - When the user's research focus is not well defined or needs to be clarified
+    
+    Args:
+        queries: A list of queries to search the web for.
+        research_focus: The focus of the research based on your conversation with the user.
+
+    Returns:
+        A string summarizing the search results.
+    """
 
     search_results = []
     for query in queries:
@@ -66,15 +80,30 @@ def search_tavily(queries: List[str], research_focus: str) -> str:
     # return the full summary
     return results_summary
 
-@tool
+@tool(parse_docstring=True)
 def execute_research(research_topic: str, research_scope: str) -> str:
-    """Execute deep research on the given topic and scope after user approval"""
+    """
+    Tool to launch a long-running research task based on the user's research topic and scope.
+
+    When to use:
+    - When the user explicitly confirms a research direction and wants to proceed with a research task
+
+    When NOT to use:
+    - When the user is still exploring different research directions or needs more clarification
+    
+    Args:
+        research_topic: The topic of the research.
+        research_scope: The scope of the research.
+
+    Returns:
+        A string confirming that the research task has been launched.
+    """
     return f"Research executed for {research_topic} with scope {research_scope}"
 
 
 
 # we bind those two tools to the model
-model_with_tools = model.bind_tools([search_tavily, execute_research])
+model_with_tools = model.bind_tools([search_web, execute_research])
 
 
 ### Nodes ###
@@ -86,7 +115,7 @@ def call_model(state: ResearchAdvisor) -> ResearchAdvisor:
     response = model_with_tools.invoke(messages)
     return {"messages": [response]}
 
-tool_node = ToolNode(tools=[search_tavily, execute_research])
+tool_node = ToolNode(tools=[search_web, execute_research])
 
 # I created this extra node to save down the structured output of the execute_research tool to state
 def save_research_brief(state: ResearchAdvisor) -> dict:
