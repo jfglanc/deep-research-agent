@@ -137,9 +137,9 @@ async def supervisor_tools(state: SupervisorState) -> Command[Literal["superviso
                 if tool_call["name"] == "ConductResearch"
             ]
             
-            # Execute think_tool (synchronous)
+            # Execute think_tool (asynchronous)
             for tool_call in think_tool_calls:
-                observation = think_tool.invoke(tool_call["args"])
+                observation = await think_tool.ainvoke(tool_call["args"])
                 tool_messages.append(
                     ToolMessage(
                         content=observation,

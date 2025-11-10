@@ -85,7 +85,7 @@ async def tool_node(state: ResearcherState):
     for tool_call in last_message.tool_calls:
         # Execute the appropriate tool
         tool = tools_by_name[tool_call["name"]]
-        observation = tool.invoke(tool_call["args"])
+        observation = await tool.ainvoke(tool_call["args"])
         
         # Collect raw notes (only from searches, not think_tool)
         if tool_call["name"] == "tavily_search":
