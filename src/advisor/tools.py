@@ -61,25 +61,25 @@ def search_web(queries: List[str], research_focus: str) -> str:
 
 @tool(parse_docstring=True)
 def execute_research(research_topic: str, research_scope: str) -> str:
-    """Tool to launch a long-running research task.
+    """Tool to launch comprehensive deep research.
 
-    This tool signals that the user has confirmed a research direction
-    and wants to proceed with deep research.
+    Use this when the user has confirmed they want to proceed with research.
+    This launches a full research process that will deliver a detailed report.
 
     When to use:
-    - When the user explicitly confirms a research direction
-    - When the user says "yes", "proceed", "go ahead", etc.
+    - When the user clearly confirms (says "yes", "sounds good", "let's do it", etc.)
+    - When you understand what they want and they've agreed to proceed
 
     When NOT to use:
-    - When the user is still exploring different research directions
+    - When the user is still exploring or refining what they want to research
     - When the user needs more clarification
     
     Args:
-        research_topic: The high-level topic of the research
-        research_scope: The detailed scope with specific focus areas
+        research_topic: Clear, concise topic (e.g., "AI Impact on Software Engineering Careers")
+        research_scope: Capture what the user said and the conversation context - nothing more. Helps define the scope and angle of the research.
 
     Returns:
         Confirmation message that research has been launched
     """
-    return f"Research launched: {research_topic}\n\nScope: {research_scope}\n\nProceeding to deep research..."
+    return f"Research launched: {research_topic}\n\nScope: {research_scope}\n\n"
 

@@ -11,7 +11,7 @@
 from typing_extensions import Literal
 
 from langchain_core.messages import AIMessage, SystemMessage
-from langchain_openai import ChatOpenAI
+from langchain_anthropic import ChatAnthropic
 from langgraph.graph import StateGraph, START, END, MessagesState
 from langgraph.prebuilt import ToolNode
 
@@ -21,7 +21,7 @@ from src.advisor.prompts import RESEARCH_ADVISOR_PROMPT
 
 # Models and tools
 
-model = ChatOpenAI(model="gpt-5-mini", temperature=0)
+model = ChatAnthropic(model="claude-sonnet-4-5-20250929", temperature=0.8)
 model_with_tools = model.bind_tools([search_web, execute_research])
 
 
