@@ -70,7 +70,8 @@ def save_research_brief(state: ResearchAdvisorState) -> dict:
                     return {
                         "user_approved": True,
                         "research_topic": args["research_topic"],
-                        "research_scope": args["research_scope"]
+                        "research_scope": args["research_scope"],
+                        "messages": [AIMessage(content="I'm working on this deep research. I'll circle back with a full report in a couple of minutes!")]
                     }
     
     return {}
