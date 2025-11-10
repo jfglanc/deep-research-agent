@@ -101,25 +101,25 @@ def should_save_research_brief(state: ResearchAdvisorState) -> Literal["save_res
 
 # ===== GRAPH CONSTRUCTION =====
 
-builder = StateGraph(ResearchAdvisorState)
+advisor_builder = StateGraph(ResearchAdvisorState)
 
 # Add nodes
-builder.add_node("call_model", call_model)
-builder.add_node("tool_node", tool_node)
-builder.add_node("save_research_brief", save_research_brief)
+advisor_builder.add_node("call_model", call_model)
+advisor_builder.add_node("tool_node", tool_node)
+advisor_builder.add_node("save_research_brief", save_research_brief)
 
 # Add edges
-builder.add_edge(START, "call_model")
+advisor_builder.add_edge(START, "call_model")
 
 # If model calls tools, route to tool_node
-builder.add_conditional_edges(
+advisor_builder.add_conditional_edges(
     "call_model",
     should_use_tools,
     {"tool_node": "tool_node", END: END}
 )
 
 # If execute_research tool is called, route to save_research_brief
-builder.add_conditional_edges(
+advisor_builder.add_conditional_edges(
     "tool_node",
     should_save_research_brief,
     {
@@ -129,8 +129,8 @@ builder.add_conditional_edges(
 )
 
 # Once research brief is saved, end the advisor graph
-builder.add_edge("save_research_brief", END)
+advisor_builder.add_edge("save_research_brief", END)
 
 # Compile the advisor graph
-advisor_graph = builder.compile()
+advisor_agent = advisor_builder.compile()
 

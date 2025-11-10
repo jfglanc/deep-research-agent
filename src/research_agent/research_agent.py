@@ -21,7 +21,7 @@ from typing_extensions import Literal
 
 from langgraph.graph import StateGraph, START, END
 from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage, filter_messages
-from langchain.chat_models import init_chat_model
+from langchain_openai import ChatOpenAI
 
 from src.research_agent.state import ResearcherState
 from src.research_agent.prompts import (
@@ -36,8 +36,8 @@ from src.shared.utils import think_tool, get_today_str
 # ===== CONFIGURATION =====
 
 # Initialize models
-research_model = init_chat_model(model="anthropic:claude-sonnet-4-20250514")
-compression_model = init_chat_model(model="openai:gpt-4.1", max_tokens=32000)
+research_model = ChatOpenAI(model="gpt-5", temperature=0)
+compression_model = ChatOpenAI(model="gpt-5-mini", temperature=0)
 
 # Set up tools
 tools = [tavily_search, think_tool]

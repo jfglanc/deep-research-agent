@@ -9,7 +9,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 
 from src.report_writer.prompts import FINAL_REPORT_PROMPT
 from src.shared.utils import get_today_str
-from src.shared.state import FullResearchState
+from src.state import FullResearchState
 
 
 # ===== CONFIGURATION =====
