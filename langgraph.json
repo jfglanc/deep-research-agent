@@ -2,10 +2,7 @@
   "$schema": "https://langgra.ph/schema.json",
   "dependencies": ["."],
   "graphs": {
-    "deep_research": "./src/main_graph.py:deep_research_agent",
-    "advisor": "./src/advisor/advisor_agent.py:advisor_agent",
-    "research_deep_agent": "./src/researcher/supervisor.py:supervisor_deep_agent",
-    "report_writer": "./src/report_writer/report_writer.py:report_writer_agent"
+    "deep_research": "./src/main_graph.py:deep_research_agent"
   },
   "env": ".env",
   "image_distro": "wolfi"

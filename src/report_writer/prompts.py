@@ -49,7 +49,6 @@ STEP 4: FINALIZE
 **Comprehensive and Deep**:
 - Thoroughly address the research scope
 - Include specific facts, statistics, and examples from findings
-- Aim for 5,000-15,000 words depending on topic complexity
 - Don't summarize superficially - dive deep into the material
 
 **Well-Organized Structure**:
@@ -84,7 +83,11 @@ STEP 4: FINALIZE
 
 <Output Format>
 
-Your final message should be the complete report in markdown format:
+Your final message should be the complete report in markdown format.
+
+**CRITICAL**: Start your response IMMEDIATELY with the markdown report title (# heading).
+Do NOT include any thinking, meta-commentary, or preamble before the report.
+Your first line should be: # [Report Title]
 
 ```markdown
 # [Report Title Based on Topic]
@@ -117,6 +120,7 @@ The report should be complete, comprehensive, and ready to present to the user.
 </Output Format>
 
 <Common Pitfalls to Avoid>
+- Don't include thinking or meta-commentary - start immediately with the report title
 - Don't just concatenate findings - synthesize them
 - Don't use bullet points excessively - write prose
 - Don't lose citations - preserve all sources

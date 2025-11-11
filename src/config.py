@@ -59,7 +59,7 @@ def get_researcher_model():
 REPORT_WRITER_CONFIG = {
     "model": "claude-sonnet-4-5-20250929",
     "temperature": 0,
-    "max_tokens": 10000 # Modify for longer reports
+    "max_tokens": 6000 # Modify for longer reports
 }
 
 def get_report_writer_model():
