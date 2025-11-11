@@ -1,8 +1,8 @@
 # Deep Research Agent
 
-An AI research system that works like a university advisor - helping you discover what you want to learn through conversation, then conducting comprehensive research to deliver a detailed report.
+An open deep research agent that works like a university advisor - helping you discover what you want to learn through conversation, then conducting comprehensive research to deliver a detailed report.
 
-Unlike typical deep research agents that require well-defined research questions, this system guides you from curiosity to comprehensive understanding through natural dialogue.
+Unlike typical deep research agents that require well-defined research questions, this system guides you from curiosity to comprehensive understanding through natural dialogue. It then uses that context to perfom a comprehensive research by using deep agents and subgraphs.
 
 ## Quick Start
 
@@ -81,7 +81,7 @@ That's it! Start a conversation about what you're curious about.
 
 The system uses three specialized AI agents working together:
 
-### 1. **Advisor** - Your Research Companion
+### 1. **Advisor Agent** - ReAct Loop
 - Helps you explore and refine what you want to research through conversation
 - Asks thoughtful questions to understand your interests and curiosity
 - Can search the web to help clarify unfamiliar or current topics
@@ -89,49 +89,24 @@ The system uses three specialized AI agents working together:
 
 Think of it as chatting with a friendly colleague who helps you figure out what you really want to know.
 
-### 2. **Researcher** - The Information Gatherer
+### 2. **Researcher** - Deep Agent
 - Coordinates multiple specialized research agents working in parallel
 - Each agent focuses on a distinct aspect of your topic (e.g., for "React vs Vue", one agent researches React, another researches Vue)
 - Searches the web, collects sources, and organizes findings into structured markdown files
 - Saves raw search results for traceability and comprehensive findings for synthesis
 
-**The Library Analogy**: Like a researcher going to the library, systematically gathering materials, taking detailed notes, and organizing everything by topic - but NOT writing the final paper yet.
+Like a researcher going to the library, systematically gathering materials, taking detailed notes, and organizing everything by topic - but NOT writing the final paper yet.
 
-### 3. **Report Writer** - The Synthesizer
-- Reads all the organized research findings from the file system
+### 3. **Report Writer** - Deep Agent
+- Reads all the organized research findings from the file system passed from the researcher
 - Finds connections, patterns, and themes across sources
 - Synthesizes everything into one comprehensive, well-written report
 - Preserves all citations and creates a cohesive narrative with natural flow
 
-**The Writing Analogy**: Like sitting down with all your organized notes and sources to write the actual research paper, finding connections and creating a compelling narrative.
+Like sitting down with all your organized notes and sources to write the actual research paper, finding connections and creating a compelling narrative.
 
-**Key Design Philosophy**: Separating research (information gathering) from synthesis (report writing) allows each agent to specialize in what it does best, resulting in higher quality, more thoughtful outputs.
+**Key Design Philosophy**: Separating research (information gathering) from synthesis (report writing) allows each agent to specialize in what it does best.
 
-## Example Usage
-
-Here's what a typical interaction looks like:
-
-**You**: "I'm curious about building AI agents for production"
-
-**Advisor**: "That's a fascinating area! Are you more interested in the architectural patterns and frameworks, or the operational aspects like monitoring and deployment?"
-
-**You**: "Architecture and frameworks"
-
-**Advisor**: "Great! I'll launch comprehensive research on AI agent architectures and frameworks for production use. I'll cover design patterns, popular frameworks like LangGraph, and best practices. Sound good?"
-
-**You**: "Yes, let's do it!"
-
-**[Research Phase - Takes 1-2 minutes]**
-- System spawns multiple research agents in parallel
-- Each focuses on a specific aspect (architectures, frameworks, patterns, etc.)
-- Agents search the web, collect sources, organize findings into markdown files
-
-**[Synthesis Phase]**
-- Report writer reads all findings
-- Synthesizes into comprehensive narrative
-- Preserves citations, creates natural flow
-
-**System**: [Returns detailed 8,000-word report covering AI agent architectures, popular frameworks, design patterns, best practices, with 30+ cited sources]
 
 ## Architecture
 
@@ -155,7 +130,7 @@ User Question → Advisor (conversation) → Research Supervisor → Report Writ
 
 **Research Supervisor** ([`src/researcher/`](src/researcher/)):
 - Deep Agent that coordinates parallel research
-- Spawns specialized subagents (max 3 concurrent)
+- Spawns specialized subagents
 - Each subagent researches distinct subtopic
 - Organizes findings in virtual filesystem (`/research/` directory structure)
 - Maintains incremental research index
@@ -199,30 +174,6 @@ Customize models, limits, and behavior in [`src/config.py`](src/config.py):
 - General topic mode (vs news or finance)
 - Snippet-based (not full webpage content)
 
-## Development
-
-### Running Tests
-
-```bash
-# Run all tests
-uv run pytest
-
-# Run with coverage
-uv run pytest --cov=src
-```
-
-### Code Quality
-
-```bash
-# Format code
-uv run ruff format .
-
-# Lint code
-uv run ruff check .
-
-# Type checking
-uv run mypy src/
-```
 
 ### Project Structure
 
@@ -237,12 +188,4 @@ src/
 └── main_graph.py     # Main orchestration graph
 ```
 
-## Learn More
-
-- [LangGraph Documentation](https://langchain-ai.github.io/langgraph/)
-- [Deep Agents Documentation](https://docs.langchain.com/oss/python/deepagents/overview)
-- [LangSmith for observability](https://docs.smith.langchain.com/)
-
-## License
-
-MIT
+By Jan Franco Glanc Gomez - Open Source
