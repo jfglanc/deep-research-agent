@@ -4,36 +4,6 @@ An AI research system that works like a university advisor - helping you discove
 
 Unlike typical deep research agents that require well-defined research questions, this system guides you from curiosity to comprehensive understanding through natural dialogue.
 
-## How It Works
-
-The system uses three specialized AI agents working together:
-
-### 1. **Advisor** - Your Research Companion
-- Helps you explore and refine what you want to research through conversation
-- Asks thoughtful questions to understand your interests and curiosity
-- Can search the web to help clarify unfamiliar or current topics
-- Once you're ready, launches the deep research process
-
-Think of it as chatting with a friendly colleague who helps you figure out what you really want to know.
-
-### 2. **Researcher** - The Information Gatherer
-- Coordinates multiple specialized research agents working in parallel
-- Each agent focuses on a distinct aspect of your topic (e.g., for "React vs Vue", one agent researches React, another researches Vue)
-- Searches the web, collects sources, and organizes findings into structured markdown files
-- Saves raw search results for traceability and comprehensive findings for synthesis
-
-**The Library Analogy**: Like a researcher going to the library, systematically gathering materials, taking detailed notes, and organizing everything by topic - but NOT writing the final paper yet.
-
-### 3. **Report Writer** - The Synthesizer
-- Reads all the organized research findings from the file system
-- Finds connections, patterns, and themes across sources
-- Synthesizes everything into one comprehensive, well-written report
-- Preserves all citations and creates a cohesive narrative with natural flow
-
-**The Writing Analogy**: Like sitting down with all your organized notes and sources to write the actual research paper, finding connections and creating a compelling narrative.
-
-**Key Design Philosophy**: Separating research (information gathering) from synthesis (report writing) allows each agent to specialize in what it does best, resulting in higher quality, more thoughtful outputs.
-
 ## Quick Start
 
 ### Prerequisites
@@ -60,8 +30,8 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 2. **Clone the repository**:
 
 ```bash
-git clone https://github.com/[your-username]/deep-research.git
-cd deep-research
+git clone https://github.com/jfglanc/deep-research-agent.git
+cd deep-research-agent
 ```
 
 3. **Install dependencies**:
@@ -106,6 +76,36 @@ http://localhost:8123
 ```
 
 That's it! Start a conversation about what you're curious about.
+
+## How It Works
+
+The system uses three specialized AI agents working together:
+
+### 1. **Advisor** - Your Research Companion
+- Helps you explore and refine what you want to research through conversation
+- Asks thoughtful questions to understand your interests and curiosity
+- Can search the web to help clarify unfamiliar or current topics
+- Once you're ready, launches the deep research process
+
+Think of it as chatting with a friendly colleague who helps you figure out what you really want to know.
+
+### 2. **Researcher** - The Information Gatherer
+- Coordinates multiple specialized research agents working in parallel
+- Each agent focuses on a distinct aspect of your topic (e.g., for "React vs Vue", one agent researches React, another researches Vue)
+- Searches the web, collects sources, and organizes findings into structured markdown files
+- Saves raw search results for traceability and comprehensive findings for synthesis
+
+**The Library Analogy**: Like a researcher going to the library, systematically gathering materials, taking detailed notes, and organizing everything by topic - but NOT writing the final paper yet.
+
+### 3. **Report Writer** - The Synthesizer
+- Reads all the organized research findings from the file system
+- Finds connections, patterns, and themes across sources
+- Synthesizes everything into one comprehensive, well-written report
+- Preserves all citations and creates a cohesive narrative with natural flow
+
+**The Writing Analogy**: Like sitting down with all your organized notes and sources to write the actual research paper, finding connections and creating a compelling narrative.
+
+**Key Design Philosophy**: Separating research (information gathering) from synthesis (report writing) allows each agent to specialize in what it does best, resulting in higher quality, more thoughtful outputs.
 
 ## Example Usage
 
