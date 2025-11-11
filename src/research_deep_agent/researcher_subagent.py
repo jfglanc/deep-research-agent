@@ -4,8 +4,8 @@ This subagent is spawned by the supervisor to conduct focused research
 on specific subtopics. It has access to web search and file system tools.
 """
 
-from .tools import tavily_search
-from .prompts import RESEARCHER_SYSTEM_PROMPT
+from src.research_deep_agent.tools import tavily_search
+from src.research_deep_agent.prompts import RESEARCHER_SYSTEM_PROMPT
 from src.config import RESEARCH_SUBAGENT_CONFIG
 
 

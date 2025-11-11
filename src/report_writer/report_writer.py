@@ -67,5 +67,5 @@ async def write_final_report(state: FullResearchState) -> dict:
     # Return report in both final_report field and message
     return {
         "final_report": final_report_content,
-        "messages": [AIMessage(content=f"Here's your research report:\n\n{final_report_content}")]
+        "messages": [result["messages"][-1]] 
     }

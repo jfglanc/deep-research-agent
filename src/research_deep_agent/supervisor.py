@@ -9,8 +9,8 @@ from langchain_core.messages import HumanMessage
 
 from src.state import FullResearchState
 from src.config import RESEARCH_SUPERVISOR_CONFIG
-from .researcher_subagent import research_subagent
-from .prompts import SUPERVISOR_SYSTEM_PROMPT, SUPERVISOR_INITIAL_MESSAGE_TEMPLATE
+from src.research_deep_agent.researcher_subagent import research_subagent
+from src.research_deep_agent.prompts import SUPERVISOR_SYSTEM_PROMPT, SUPERVISOR_INITIAL_MESSAGE_TEMPLATE
 
 
 # ===== CREATE SUPERVISOR DEEP AGENT =====
