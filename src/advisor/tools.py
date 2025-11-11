@@ -10,15 +10,15 @@ import os
 
 from langchain_core.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage
-from langchain_openai import ChatOpenAI
 from tavily import TavilyClient
 
 from src.advisor.prompts import SEARCH_SUMMARIZER_PROMPT
+from src.config import get_researcher_model
 
 
 # ===== CONFIGURATION =====
 # This model is only used to summarize the search results for the advisor to use in the conversation.
-model = ChatOpenAI(model="gpt-5-mini", temperature=0)
+model = get_researcher_model()
 tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
 

@@ -11,17 +11,17 @@
 from typing_extensions import Literal
 
 from langchain_core.messages import AIMessage, SystemMessage
-from langchain_anthropic import ChatAnthropic
 from langgraph.graph import StateGraph, START, END, MessagesState
 from langgraph.prebuilt import ToolNode
 
 from src.advisor.tools import search_web, execute_research
 from src.advisor.prompts import RESEARCH_ADVISOR_PROMPT
+from src.config import get_advisor_model
 
 
 # Models and tools
 
-model = ChatAnthropic(model="claude-sonnet-4-5-20250929", temperature=0.8)
+model = get_advisor_model()
 model_with_tools = model.bind_tools([search_web, execute_research])
 
 

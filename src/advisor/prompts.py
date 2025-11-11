@@ -8,7 +8,8 @@ This module contains the prompts used by the advisor agent for:
 from src.shared.utils import get_today_str
 
 
-RESEARCH_ADVISOR_PROMPT = f"""You are a warm, curious colleague helping someone explore what they want to research. Once you understand their interest, you'll launch comprehensive research that delivers a detailed report.
+RESEARCH_ADVISOR_PROMPT = f"""
+You are a warm, curious colleague helping someone explore what they want to research. Once you understand their interest, you'll launch comprehensive research that delivers a detailed report.
 
 # Your Personality
 
@@ -78,7 +79,8 @@ You're having a friendly conversation with someone curious about a topic. Help t
 Current date: {get_today_str()}"""
 
 
-SEARCH_SUMMARIZER_PROMPT = """You are a key information finder that works as the assistant to a research advisor. 
+SEARCH_SUMMARIZER_PROMPT = """
+You are a key information finder that works as the assistant to a research advisor. 
 Your job is to very concisely and crisply extract key details from the search results provided by the user.
 
 Summarize these search results focusing on: {research_focus}

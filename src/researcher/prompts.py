@@ -7,7 +7,8 @@ from src.config import RESEARCH_LIMITS
 # ===== SUPERVISOR SYSTEM PROMPT =====
 # General, reusable prompt - no topic/scope (those go in message)
 
-SUPERVISOR_SYSTEM_PROMPT = f"""You are a research supervisor coordinating specialized research subagents.
+SUPERVISOR_SYSTEM_PROMPT = f"""
+You are a research supervisor coordinating specialized research subagents.
 
 Today's date: {get_today_str()}
 

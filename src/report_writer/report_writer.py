@@ -24,7 +24,7 @@ report_writer_agent = create_deep_agent(
     subagents=[]
 )
 
-## Why a deep agent?
+## Why a deep agent for a report writer?
 # We want to use the file system tools to read the findings and synthesize the report.
 # The researcher is fully in charge of investigating and collecting findings and sources.
 # That is the equivalent to "compressing the web" into an organized file system.
