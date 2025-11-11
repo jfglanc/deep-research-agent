@@ -72,11 +72,11 @@ def get_report_writer_model():
 
 
 # ===== RESEARCH BEHAVIORAL LIMITS =====
-
+# These parameters heavily affect cost of research and latency!!!
 RESEARCH_LIMITS = {
-    "max_subagents": 3,              # Max concurrent subagents supervisor can spawn
+    "max_subagents": 5,              # Max concurrent subagents supervisor can spawn
     "max_supervisor_iterations": 6,  # Max task() calls supervisor can make
-    "max_researcher_searches": 5     # Max searches each researcher should perform
+    "max_researcher_searches": 3     # Max searches each researcher should perform
 }
 
 

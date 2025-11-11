@@ -1,11 +1,12 @@
-"""Deep Agent report writer for final research report generation.
+"""
+Deep Agent report writer for final research report generation.
 
 Reads research findings from virtual filesystem and synthesizes
 comprehensive markdown report.
 """
 
 from deepagents import create_deep_agent
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage
 
 from src.state import FullResearchState
 from src.config import REPORT_WRITER_CONFIG
@@ -16,20 +17,25 @@ from src.report_writer.prompts import (
 
 
 # ===== CREATE REPORT WRITER DEEP AGENT =====
-# Created ONCE at module import (efficient, reusable)
-
 report_writer_agent = create_deep_agent(
-    model=REPORT_WRITER_CONFIG["model"],  # claude-sonnet-4-5-20250929
-    tools=[],  # No custom tools, just file system tools from middleware
-    system_prompt=REPORT_WRITER_SYSTEM_PROMPT,  # Single comprehensive format
-    subagents=[]  # No subagents needed
+    model=REPORT_WRITER_CONFIG["model"],
+    tools=[],
+    system_prompt=REPORT_WRITER_SYSTEM_PROMPT,
+    subagents=[]
 )
+
+## Why a deep agent?
+# We want to use the file system tools to read the findings and synthesize the report.
+# The researcher is fully in charge of investigating and collecting findings and sources.
+# That is the equivalent to "compressing the web" into an organized file system.
+# The report writer is then in charge of synthesizing the findings into a comprehensive report.
 
 
 # ===== WRAPPER FUNCTION FOR MAIN GRAPH =====
 
 async def write_final_report(state: FullResearchState) -> dict:
-    """Generate final research report using Deep Agent.
+    """
+    Generate final research report using a Deep Agent.
     
     Reads research findings from state["files"] and synthesizes
     into comprehensive markdown report.
@@ -43,9 +49,10 @@ async def write_final_report(state: FullResearchState) -> dict:
     """
     
     # Extract supervisor's summary from last message
+    # We do this to give more context to the report writer on what the research supervisor found.
     supervisor_summary = state["messages"][-1].content if state["messages"] else "Research completed."
     
-    # Prepare initial message with all context
+    # Prepare initial message with all context to the report writer.
     initial_message = HumanMessage(
         content=REPORT_WRITER_INITIAL_MESSAGE_TEMPLATE.format(
             research_topic=state["research_topic"],
@@ -54,17 +61,17 @@ async def write_final_report(state: FullResearchState) -> dict:
         )
     )
     
-    # Invoke deep agent with files from supervisor
+    # Invoke deep agent with files from supervisor (file system is shared across all deep agents)
     result = await report_writer_agent.ainvoke({
         "messages": [initial_message],
         "files": state.get("files", {}),  # All research files
-        "todos": []  # Fresh todos for report writer's planning
+        "todos": []
     })
     
     # Extract final report from last message
     final_report_content = result["messages"][-1].content
     
-    # Return report in both final_report field and message
+    # Return report in both final_report field and message to the user.
     return {
         "final_report": final_report_content,
         "messages": [result["messages"][-1]] 

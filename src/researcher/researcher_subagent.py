@@ -1,11 +1,12 @@
-"""Research subagent configuration for Deep Agents.
+"""
+Research subagent configuration for Deep Agents.
 
 This subagent is spawned by the supervisor to conduct focused research
-on specific subtopics. It has access to web search and file system tools.
+on specific subtopics. It has access to web search and sharedfile system tools.
 """
 
-from src.research_deep_agent.tools import tavily_search
-from src.research_deep_agent.prompts import RESEARCHER_SYSTEM_PROMPT
+from src.researcher.tools import tavily_search
+from src.researcher.prompts import RESEARCHER_SYSTEM_PROMPT
 from src.config import RESEARCH_SUBAGENT_CONFIG
 
 
@@ -32,8 +33,8 @@ research_subagent = {
     
     "system_prompt": RESEARCHER_SYSTEM_PROMPT,
     
-    "tools": [tavily_search],  # Only search tool, file tools provided by middleware
+    "tools": [tavily_search],
     
-    "model": RESEARCH_SUBAGENT_CONFIG["model"]  # gpt-5-mini from config
+    "model": RESEARCH_SUBAGENT_CONFIG["model"]
 }
 

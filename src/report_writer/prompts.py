@@ -3,7 +3,8 @@
 from src.shared.utils import get_today_str
 
 
-REPORT_WRITER_SYSTEM_PROMPT = f"""You are an expert research report writer.
+REPORT_WRITER_SYSTEM_PROMPT = f"""
+You are an expert research report writer. You are given a research topic, scope, and a summary of the research conducted by the supervisor.
 
 Today's date: {get_today_str()}
 
@@ -31,7 +32,7 @@ STEP 2: READ FINDINGS
 - Note the relationships and themes across subtopics
 
 STEP 3: SYNTHESIZE REPORT
-- Create comprehensive narrative that addresses research scope
+- Create comprehensive narrative that addresses research topic and scope provided by the user.
 - Organize logically based on content (not forced structure)
 - Preserve all important information from findings
 - Combine and renumber citations sequentially
@@ -128,13 +129,14 @@ Remember: This is the final deliverable. Make it comprehensive, well-written, an
 """
 
 
-REPORT_WRITER_INITIAL_MESSAGE_TEMPLATE = """Write a comprehensive research report on the following topic.
+REPORT_WRITER_INITIAL_MESSAGE_TEMPLATE = """
+Write a comprehensive research report on the following topic and scope.
 
 **Research Topic**: {research_topic}
 
 **Research Scope**: {research_scope}
 
-**Research Completed by Coordinator**:
+For context, here is the summary of the research conducted by the supervisor:
 {supervisor_summary}
 
 **Your Task**:

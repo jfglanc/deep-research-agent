@@ -14,9 +14,9 @@ from langgraph.graph import StateGraph, START, END
 from src.state import FullResearchState
 
 # Agents
-from src.advisor.advisor_agent import advisor_agent  # UNCHANGED
-from src.research_deep_agent import deep_research_supervisor  # NEW (Deep Agent)
-from src.report_writer.report_writer import write_final_report  # MODIFIED (Deep Agent)
+from src.advisor.advisor_agent import advisor_agent 
+from src.researcher import deep_research_supervisor 
+from src.report_writer.report_writer import write_final_report 
 
 
 # ===== ROUTING LOGIC =====

@@ -34,7 +34,7 @@ def tavily_search(query: str) -> str:
         include_raw_content=TAVILY_CONFIG["include_raw_content"]
     )
     
-    # Format results with clear source numbering
+    # Format results
     formatted = f"Search results for: {query}\n\n"
     
     for i, result in enumerate(results['results'], 1):
