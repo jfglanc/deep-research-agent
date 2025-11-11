@@ -48,9 +48,9 @@ async def write_final_report(state: FullResearchState) -> dict:
         Updated state with final_report field populated and report in message
     """
     
-    # Extract supervisor's summary from last message
-    # We do this to give more context to the report writer on what the research supervisor found.
-    supervisor_summary = state["messages"][-1].content if state["messages"] else "Research completed."
+    # Extract supervisor's summary from dedicated field
+    # This summary is hidden from the user - it's just context for the report writer
+    supervisor_summary = state.get("supervisor_summary", "Research completed.")
     
     # Prepare initial message with all context to the report writer.
     initial_message = HumanMessage(

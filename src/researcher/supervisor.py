@@ -53,10 +53,10 @@ async def deep_research_supervisor(state: FullResearchState) -> dict:
         "todos": state.get("todos", [])
     })
     
-    # We return the updated state with the files populated and ONLY the supervisor's final message.
+    # We return the updated state with the files populated and supervisor summary (not in messages).
     return {
         "files": result["files"],  # All research files created by subagents + index
-        "messages": [result["messages"][-1]],  # Only supervisor's final summary message (no need for the entire conversation)
+        "supervisor_summary": result["messages"][-1].content,  # Store content only (hidden from user)
         # Pass through unchanged fields, which will be used by the report writer.
         "research_topic": state["research_topic"],
         "research_scope": state["research_scope"]
