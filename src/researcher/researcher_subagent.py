@@ -7,7 +7,7 @@ on specific subtopics. It has access to web search and sharedfile system tools.
 
 from src.researcher.tools import tavily_search
 from src.researcher.prompts import RESEARCHER_SYSTEM_PROMPT
-from src.config import RESEARCH_SUBAGENT_CONFIG
+from src.config import get_researcher_model
 
 
 # Research subagent configuration
@@ -35,6 +35,6 @@ research_subagent = {
     
     "tools": [tavily_search],
     
-    "model": RESEARCH_SUBAGENT_CONFIG["model"]
+    "model": get_researcher_model()
 }
 

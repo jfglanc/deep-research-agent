@@ -6,7 +6,7 @@ from deepagents import create_deep_agent
 from langchain_core.messages import HumanMessage
 
 from src.state import FullResearchState
-from src.config import RESEARCH_SUPERVISOR_CONFIG
+from src.config import get_supervisor_model
 from src.researcher.researcher_subagent import research_subagent
 from src.researcher.prompts import SUPERVISOR_SYSTEM_PROMPT, SUPERVISOR_INITIAL_MESSAGE_TEMPLATE
 
@@ -14,7 +14,7 @@ from src.researcher.prompts import SUPERVISOR_SYSTEM_PROMPT, SUPERVISOR_INITIAL_
 # ===== CREATE SUPERVISOR DEEP AGENT =====
 # This is the supervisor deep agent that coordinates the research, delegates research tasks, and stores findings/sources in filesystem.
 supervisor_deep_agent = create_deep_agent(
-    model=RESEARCH_SUPERVISOR_CONFIG["model"],
+    model=get_supervisor_model(),
     tools=[],  # Supervisor only delegates, no need for extra tools
     system_prompt=SUPERVISOR_SYSTEM_PROMPT,
     subagents=[research_subagent],

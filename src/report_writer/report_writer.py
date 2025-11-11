@@ -9,7 +9,7 @@ from deepagents import create_deep_agent
 from langchain_core.messages import HumanMessage
 
 from src.state import FullResearchState
-from src.config import REPORT_WRITER_CONFIG
+from src.config import get_report_writer_model
 from src.report_writer.prompts import (
     REPORT_WRITER_SYSTEM_PROMPT,
     REPORT_WRITER_INITIAL_MESSAGE_TEMPLATE
@@ -18,7 +18,7 @@ from src.report_writer.prompts import (
 
 # ===== CREATE REPORT WRITER DEEP AGENT =====
 report_writer_agent = create_deep_agent(
-    model=REPORT_WRITER_CONFIG["model"],
+    model=get_report_writer_model(),
     tools=[],
     system_prompt=REPORT_WRITER_SYSTEM_PROMPT,
     subagents=[]
