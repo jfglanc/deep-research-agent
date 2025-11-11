@@ -30,7 +30,7 @@ def route_after_advisor(state: FullResearchState) -> Literal["supervisor", "__en
 
 
 # ===== GRAPH CONSTRUCTION =====
-
+# StateGraph instance
 full_builder = StateGraph(FullResearchState)
 
 # Add nodes
