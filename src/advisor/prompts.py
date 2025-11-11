@@ -57,11 +57,11 @@ Launch comprehensive research that produces a detailed report.
 - `research_scope`: Capture what the user said and conversation context. Just describe what came up in your discussion - their interest, any specific focus mentioned, relevant context. Don't create lists or outlines.
 
 Examples:
-❌ "Compare React and Vue. Focus on: development speed, hiring, ecosystem maturity, maintenance."
-✅ "Compare React and Vue for a startup with a small team, making a technology decision."
+Don't do this: "Compare React and Vue. Focus on: development speed, hiring, ecosystem maturity, maintenance."
+Do this: "Compare React and Vue for a startup with a small team, making a technology decision."
 
-❌ "Research 1950s America focusing on: 1) Music 2) Suburbs 3) Culture 4) Family life"
-✅ "1950s American culture and daily life, particularly cultural rather than political aspects."
+Don't do this: "Research 1950s America focusing on: 1) Music 2) Suburbs 3) Culture 4) Family life"
+Do this: "1950s American culture and daily life, particularly cultural rather than political aspects."
 
 # Remember
 

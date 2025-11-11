@@ -1,14 +1,15 @@
-"""Configuration for Deep Research Agent system.
+"""
+Configuration for Deep Research Agent system.
 
 All models, limits, and behavioral parameters are defined here.
-Organized by agent type for clarity.
 """
 
 from langchain.chat_models import init_chat_model
 
 
 # ===== ADVISOR CONFIGURATION =====
-
+# We are choosing Claude for a warm and friendly tone.
+# Temperature is high to make the advisor more divergent and exploratory with the user.
 ADVISOR_CONFIG = {
     "model": "claude-sonnet-4-5-20250929",
     "temperature": 0.8
@@ -23,7 +24,6 @@ def get_advisor_model():
 
 
 # ===== RESEARCH SUPERVISOR CONFIGURATION =====
-
 RESEARCH_SUPERVISOR_CONFIG = {
     "model": "claude-sonnet-4-5-20250929",
     "temperature": 0
@@ -38,7 +38,8 @@ def get_supervisor_model():
 
 
 # ===== RESEARCH SUBAGENT CONFIGURATION =====
-
+# Choosing GPT-5-mini to save costs on token-heavy tasks. 
+# Temperature is 0 to avoid hallucinations.
 RESEARCH_SUBAGENT_CONFIG = {
     "model": "gpt-5-mini",
     "temperature": 0
@@ -53,11 +54,12 @@ def get_researcher_model():
 
 
 # ===== REPORT WRITER CONFIGURATION =====
-
+# Choosing Claude for a warm, natural output.
+# Temperature is 0 to avoid hallucinations.
 REPORT_WRITER_CONFIG = {
     "model": "claude-sonnet-4-5-20250929",
     "temperature": 0,
-    "max_tokens": 32000
+    "max_tokens": 15000 # Modify for longer reports
 }
 
 def get_report_writer_model():
@@ -88,7 +90,7 @@ TAVILY_CONFIG = {
 
 
 # ===== FILE PATH CONSTANTS =====
-
+# These are used to coordinate research between the supervisor and the researcher subagents.
 RESEARCH_INDEX_PATH = "/research/index.md"
 RESEARCH_BASE_DIR = "/research"
 
